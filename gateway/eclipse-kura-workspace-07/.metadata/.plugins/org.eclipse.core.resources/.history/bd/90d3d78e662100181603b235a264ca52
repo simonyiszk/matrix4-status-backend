@@ -1,0 +1,22 @@
+package org.eclipse.kura.demo.heater;
+
+public class SensorData {
+	
+	public int SensorID;
+	public String SensorType;
+	
+	public double AccX;
+	public double AccY;
+	public double AccZ;
+
+	public double RedLight;
+	public double GreenLight;
+	public double BlueLight;
+	
+	public double Force;
+	
+	public double Light;
+	
+	public int MicroTimeStamp;
+
+}
