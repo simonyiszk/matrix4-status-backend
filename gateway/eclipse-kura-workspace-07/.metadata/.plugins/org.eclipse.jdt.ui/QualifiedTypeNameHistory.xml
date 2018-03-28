@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.eclipse.kura.cloud.CloudService"/>
 <fullyQualifiedTypeName name="org.eclipse.kura.demo.heater.TCPDataCollector"/>
+<fullyQualifiedTypeName name="sun.util.logging.resources.logging"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="org.eclipse.kura.demo.heater.TCPCommandManager"/>
+<fullyQualifiedTypeName name="org.eclipse.paho.client.mqttv3.MqttCallback"/>
+<fullyQualifiedTypeName name="org.eclipse.paho.client.mqttv3.persist.MemoryPersistence"/>
+<fullyQualifiedTypeName name="org.eclipse.paho.client.mqttv3.MqttClient"/>
+<fullyQualifiedTypeName name="org.eclipse.paho.client.mqttv3.MqttConnectOptions"/>
+<fullyQualifiedTypeName name="org.eclipse.paho.client.mqttv3.MqttException"/>
+<fullyQualifiedTypeName name="org.eclipse.kura.demo.heater.LampState"/>
+<fullyQualifiedTypeName name="org.eclipse.kura.demo.heater.LCDState"/>
+<fullyQualifiedTypeName name="org.eclipse.kura.KuraException"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.awt.image.BufferedImageFilter"/>
+<fullyQualifiedTypeName name="java.io.BufferedWriter"/>
+<fullyQualifiedTypeName name="java.io.FileWriter"/>
+<fullyQualifiedTypeName name="java.io.FilterInputStream"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.io.FileReader"/>
+<fullyQualifiedTypeName name="org.eclipse.kura.demo.heater.CameraData"/>
+<fullyQualifiedTypeName name="org.eclipse.kura.demo.heater.LightState"/>
+<fullyQualifiedTypeName name="org.eclipse.kura.demo.heater.TCPCommandManager.MasterHandler"/>
 </qualifiedTypeNameHistroy>

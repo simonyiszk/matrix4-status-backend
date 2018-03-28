@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2011, 2016 Eurotech and/or its affiliates
+
+     All rights reserved. This program and the accompanying materials
+     are made available under the terms of the Eclipse Public License v1.0
+     which accompanies this distribution, and is available at
+     http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+      Eurotech
+
+-->
+<MetaData xmlns="http://www.osgi.org/xmlns/metatype/v1.2.0" localization="en_us">
+    <OCD id="org.eclipse.kura.demo.heater.Heater"
+         name="Central Data Collector TCP Server" 
+         description="This package is responsible for towarding and processing the commands via TCP">
+         
+         
+        
+        <Icon resource="OSGI-INF/sensorIcon.jpg" size="32"/>
+        
+        
+
+            
+        <AD id="server.port"
+            name="Command Server Port"
+            type="Integer"
+            cardinality="0"
+            required="true"
+            default="1947"
+            description="The port of the TCP server"/>
+            
+        
+        <AD id="server.key"  
+            name="Identification key"
+            type="String"
+            cardinality="0" 
+            required="true"
+            default="LaborImage01" 
+            description="Her you can adjust the GPIO of th red lamp"/>
+   
+        
+       
+        
+    </OCD>
+    
+    <Designate pid="org.eclipse.kura.demo.heater.Heater">
+        <Object ocdref="org.eclipse.kura.demo.heater.Heater"/>
+    </Designate>
+</MetaData>

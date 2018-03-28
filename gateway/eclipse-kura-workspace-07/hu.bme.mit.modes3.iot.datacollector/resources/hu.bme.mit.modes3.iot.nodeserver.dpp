@@ -1,0 +1,20 @@
+#Deployment Plugin Project File
+#Thu Mar 08 16:41:23 CET 2018
+build.ant.name=<.>\\resources\\hu.bme.mit.modes3.iot.nodeserver_build.xml
+build.dp.file=<.>\\resources\\hu.bme.mit.modes3.iot.nodeserver.dp
+build.location=
+bundles.0.bundle_path=C\:\\Users\\simon5521\\Desktop\\plugins\\hu.bme.mit.modes3.iot.datacollector_1.0.201.jar
+bundles.0.customizer=false
+bundles.0.headers.count=0
+bundles.0.missing=false
+bundles.0.name=bundles/hu.bme.mit.modes3.iot.datacollector_1.0.201.jar
+bundles.0.symbolic_name=hu.bme.mit.modes3.iot.datacollector;singleton\:\=true
+bundles.0.version=1.0.201
+bundles.count=1
+certificates.count=0
+general.signbundles=false
+headers.other.headers=
+headers.symbolic.name=hu.bme.mit.modes3.iot.nodeserver
+headers.version=1.0.0
+resources.count=0
+

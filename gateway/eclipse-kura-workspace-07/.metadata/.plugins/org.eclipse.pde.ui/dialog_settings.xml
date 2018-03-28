@@ -13,6 +13,20 @@
 			<item value="59" key="DIALOG_Y_ORIGIN"/>
 		</section>
 	</section>
+	<section name="PluginExportWizard">
+		<item value="C:\Users\simon5521\Desktop" key="destination0"/>
+		<item value="C:\Users\simon5521\Desktop" key="destination1"/>
+		<item value="true" key="allowBinaryCycles"/>
+		<item value="201803081802" key="qualifierName"/>
+		<item value="false" key="useWorkspaceCompiledClasses"/>
+		<item value="1" key="exportType"/>
+		<item value="Generate source bundles" key="exportSourceFormat"/>
+		<item value="false" key="signJAR"/>
+		<item value="false" key="qualifier"/>
+		<item value="true" key="exportUpdate"/>
+		<item value="false" key="saveAsAnt"/>
+		<item value="false" key="exportSource"/>
+	</section>
 	<section name="quick_assist_proposal_size">
 	</section>
 </section>
