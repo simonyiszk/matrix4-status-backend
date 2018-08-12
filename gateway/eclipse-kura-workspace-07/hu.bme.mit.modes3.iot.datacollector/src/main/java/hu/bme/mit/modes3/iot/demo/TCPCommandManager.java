@@ -1,5 +1,11 @@
 package hu.bme.mit.modes3.iot.demo;
 
+/*
+ * Ez az objektum felel a parancsok továbbításáért
+ * A parancsok kiadása úgy zajlik, hogy miután TCP-vel kapcsolódik az aktuátor (kliens)
+ * utána a mester elküld egy json-t ami tartalmazza kulcs-érték párokként, hogy kinek mit kell csinálni
+ */
+
 
 import java.net.*;
 import java.util.concurrent.ScheduledExecutorService;
@@ -13,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.io.*;
+//Ha ezeket bennthagyod akkor egyáltalán nem indul el a bundle a Kura-n
 /*
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -32,16 +39,18 @@ public class TCPCommandManager extends Thread /*implements MqttCallback*/{
 	 */
 
     public  int serverPort=5503;
-    public  int masterPort=5505;
+    public  int masterPort=5505;    //ez nem fontos
     protected ServerSocket serverSocket;
     protected ServerSocket masterSocket;
-    LampState lampState=LampState.STOP;
+    //enumokban tárolom, hogy az egyes aktuátoroknak milyen állapotban kell lenniük
+    LampState lampState=LampState.STOP;// a vasúti lámpa alapértelmezettként piros
     LCDState lcdState=LCDState.OKAY;
-    LightState lightState=LightState.OFF;
+    LightState lightState=LightState.OFF;//a közvilágítás alapértelmezettként ki van kapcsolva
     //ScheduledExecutorService m_worker;
     
     /*
      * MQTT variables
+     * most feleslegesek
      */
     
 
@@ -69,6 +78,7 @@ public class TCPCommandManager extends Thread /*implements MqttCallback*/{
     public TCPCommandManager(/*ScheduledExecutorService worker*/) {
     	
     	/*m_worker=worker;*/
+    	//szerver inicializálása
     	logger.info("creating webcontrol server...");
     	initServer();
     	logger.info("creating webcontrol server...Done");
@@ -95,7 +105,7 @@ public class TCPCommandManager extends Thread /*implements MqttCallback*/{
     	
     }
     
-   
+   //port beállítása és szerver újrainicializálása
     public void setPort(int port) {
     	logger.info("set server port...");
     	serverPort=port;
@@ -107,7 +117,7 @@ public class TCPCommandManager extends Thread /*implements MqttCallback*/{
     public void run() {
 
         //Thread.currentThread().setName(getClass().getSimpleName());
-    		
+    	//figyelik, hogy jön e új kliens és hozzákapcsol egy klienskezelõt ami összzeállítja neki a parancs json-t és elküldi neki	
     	while(true) {
     		try {
     			Socket connection=serverSocket.accept();
@@ -151,9 +161,10 @@ public class TCPCommandManager extends Thread /*implements MqttCallback*/{
 				OutputStream os=m_connection.getOutputStream();
 				
 				JsonObject commands=new JsonObject();
-				
+				//a gateway azonosítója a kliensnek
 				commands.addProperty("GatewayID", "5521");
 				
+				//lámpa állapotától függõen írja be a parancsot
 				switch(lampState) {
 				case START:
 					commands.addProperty("LampState", "START");
@@ -199,7 +210,7 @@ public class TCPCommandManager extends Thread /*implements MqttCallback*/{
 				
 				}
 				
-				
+				//elküdi a kliensnek az összeállított parancsot a kliensnek és zárja a kapcsolatot
 				os.write(commands.toString().getBytes());
 				os.write('$');
 				
@@ -210,7 +221,7 @@ public class TCPCommandManager extends Thread /*implements MqttCallback*/{
 			}
 		}
     }
-		
+		//most még nincs használva
 		private class MasterHandler extends Thread{
 			Socket m_connection;
 			StringBuffer inBuffer=new StringBuffer("");

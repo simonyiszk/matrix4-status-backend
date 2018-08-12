@@ -1,5 +1,9 @@
 package hu.bme.mit.modes3.iot.demo;
  
+/*
+ * Ez az osztály felel az adatok közvetlen továbbküldéséért a Kapua-nak
+ */
+
 import java.util.Date;
  
 import org.eclipse.kura.KuraException;
@@ -11,15 +15,19 @@ import org.slf4j.LoggerFactory;
  
 public class DataPublisher {
     
+	//publikálás beállításai
     public String topic="SensorData";
-    public int qos=2;// quality of service
+    public int qos=2;// quality of service 0-no check; 1-simple check; 2-complex check with 4 handshake
     public boolean retain =false;
     public final String appID="DataCollector";
+    
+    //adatok publikálásáért felelõs objektumok
     public final String watchmanID="WatchmanCollector";
     public final String solarID="SolarCollector";
     public final String accID="AccCollector";
     public final String trainID="TrainCollector";
     public final String cameraID="CameraCollector";
+    public final String onboardID="OnboardCollector";
  
     private CloudClient cloudClient;
     private CloudClient watchmanClient;
@@ -27,6 +35,7 @@ public class DataPublisher {
     private CloudClient accClient;
     private CloudClient trainClient;
     private CloudClient cameraClient;
+    private CloudClient onboardClient;
     
 
     
@@ -34,6 +43,7 @@ public class DataPublisher {
     
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
     
+    //konstruktorban megkapja a cloudservice-t ami segítségével a cloudclienteket létre tudjuk hozni
     public DataPublisher(CloudService cloudService) throws KuraException {
     
         logger.info("creating publisher...");
@@ -43,14 +53,20 @@ public class DataPublisher {
         watchmanClient=cloudService.newCloudClient(watchmanID);
         trainClient=cloudService.newCloudClient(trainID);
         cameraClient=cloudService.newCloudClient(cameraID);
+        onboardClient=cloudService.newCloudClient(onboardID);
         logger.info("creating publisher...Done");
-
+        
+        //elindítom a parancs manager-t ugyanis az adatoktól függõen változtatom az állapotokat
 		logger.info("creating Manager...");
         manager=new TCPCommandManager();
         manager.start();
 		logger.info("creating Manager...Done");
     
     }    
+    
+    /*
+     * Ebben a szekcióban a különbözõ típusú adatok publikációja található
+     */
     
 public void publishData(SensorData data) throws Exception{
         
@@ -159,6 +175,7 @@ public void publishData(CameraData data) throws Exception{
         this.trainClient.publish(topic,trainpl, qos, retain);
         logger.info("success!");
         
+        //itt megvizsgálom a közelségérzékelõ értékét és ez alapján állítom be a commandmanager-ben az aktuátor állapotát
         if(data.Infra2==0) {
         	manager.setLampState(LampState.STOP);
         }else {
@@ -187,7 +204,7 @@ public void publishData(CameraData data) throws Exception{
         logger.info("success!");
         
     }
- 
+
     public void publishData(AccData data) throws Exception{
         
         logger.info("--------start to publishing AccData...");
@@ -199,6 +216,37 @@ public void publishData(CameraData data) throws Exception{
         payload.addMetric("AccX", data.AccX);
         payload.addMetric("AccY", data.AccY);
         payload.addMetric("AccZ", data.AccZ);
+ 
+        logger.info("--------publishing add date metric data...");
+        payload.setTimestamp(new Date());
+ 
+        logger.info("--------publishing data...");
+ 
+        this.accClient.publish(topic,payload, qos, retain);
+        //this.cloudClient.publish(topic,payload, qos, retain);
+        logger.info("success!");
+        
+    }
+    
+    public void publishData(OnboardData data) throws Exception{
+        
+        logger.info("--------start to publishing AccData...");
+        KuraPayload payload=new KuraPayload();
+        
+        payload.addMetric("SensorID", data.SensorID);
+        payload.addMetric("MicroTimeStamp", data.MicroTimeStamp);
+ 
+        payload.addMetric("AccX", data.AccX);
+        payload.addMetric("AccY", data.AccY);
+        payload.addMetric("AccZ", data.AccZ);
+ 
+        payload.addMetric("GyrX", data.GyrX);
+        payload.addMetric("GyrY", data.GyrY);
+        payload.addMetric("GyrZ", data.GyrZ);
+ 
+        payload.addMetric("MagX", data.MagX);
+        payload.addMetric("MagY", data.MagY);
+        payload.addMetric("MagZ", data.MagZ);
  
         logger.info("--------publishing add date metric data...");
         payload.setTimestamp(new Date());
