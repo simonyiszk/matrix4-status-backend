@@ -1,0 +1,5 @@
+package matrix.command.tester;
+
+public class RestApiService extends Thread {
+
+}

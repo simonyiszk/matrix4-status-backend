@@ -1,0 +1,5 @@
+package hu.bme.ftsrg.modes4.mqtt.test.first;
+
+public class MqttPublishSample {
+
+}

@@ -1,0 +1,34 @@
+package matrix.command.tester;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class RestApiService implements Runnable {
+	
+	Socket conn;
+	ServerSocket serverSocket;
+	public final int port=31920;
+	
+	RestApiService() throws IOException{
+		
+		serverSocket=new ServerSocket(port);
+		
+	}
+	
+	public void run() {
+		try {
+			conn=serverSocket.accept();
+			InputStream in=conn.getInputStream();
+			OutputStream out=conn.getOutputStream();
+			out.write(new MuebArray().toJsonString().getBytes());
+		}catch(Exception e){
+			System.out.println(e.toString());
+		}
+	}
+	
+	
+
+}
