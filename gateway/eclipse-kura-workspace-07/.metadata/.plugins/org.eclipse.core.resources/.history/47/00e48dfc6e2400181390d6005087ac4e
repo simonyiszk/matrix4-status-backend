@@ -1,0 +1,7 @@
+package org.eclipse.kura.demo.heater;
+
+public class AccData {
+	public double AccX;
+	public double AccY;
+	public double AccZ;
+}

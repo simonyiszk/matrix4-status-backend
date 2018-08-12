@@ -1,0 +1,13 @@
+package org.eclipse.kura.demo.heater;
+
+import org.eclipse.kura.message.KuraPayload;
+
+public abstract class Data {
+	
+	public int SensorID;
+	public String Type;
+	public int MicroTimeStamp;
+	
+	
+
+}

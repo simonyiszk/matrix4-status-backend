@@ -1,0 +1,275 @@
+package org.eclipse.kura.demo.heater;
+
+
+import java.net.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.kura.cloud.CloudService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.io.*;
+/*
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+*/
+public class TCPCommandManager extends Thread /*implements MqttCallback*/{
+	
+
+    private static final Logger logger = LoggerFactory.getLogger(Heater.class);
+	
+	/*
+	 * TCP variables
+	 */
+
+    public  int serverPort=5503;
+    protected ServerSocket serverSocket;
+    LampState lampState=LampState.STOP;
+    LCDState lcdState=LCDState.OKAY;    
+    ScheduledExecutorService m_worker;
+    
+    /*
+     * MQTT variables
+     */
+    
+
+    private final String topic        = "LampCommand";
+    private final String content      = "";
+    private final int qos             = 2;
+    private final String broker       = "tcp://localhost:1883";
+    private final String clientId     = "CommandManager";
+    //MemoryPersistence persistence = new MemoryPersistence();
+    
+    
+    private void notifylog() {
+    	logger.info("******************notify******************");
+    	logger.info("******************notify******************");
+    	logger.info("******************notify******************");
+    	logger.info("******************notify******************");
+    	logger.info("******************notify******************");
+    	logger.info("******************notify******************");
+    }
+    
+    
+    
+    public TCPCommandManager(ScheduledExecutorService worker) {
+    	
+    	m_worker=worker;
+    	logger.info("creating webcontrol server...");
+    	initServer();
+    	logger.info("creating webcontrol server...Done");
+    	//initMQTT();
+    	
+    	logger.info("TCP Command Manager has successfully initalised :)");
+    	
+    }
+    
+    
+    private void initServer() {
+
+    	logger.info("initalising TCP Data Manager...");
+    	try {
+    		serverSocket=new ServerSocket(serverPort);
+    		logger.info("Server socket is created. :");
+    		logger.info("Port is:"+Integer.toString(serverSocket.getLocalPort()));
+    	}catch(IOException e) {
+    		notifylog();
+    		logger.info(e.toString());
+    	}
+    	
+    	
+    }
+    
+    /*
+    private void initMQTT() {
+    	
+    	logger.info("initalise MQTT...");
+        
+        try {
+            MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
+            
+            
+            MqttConnectOptions connOpts = new MqttConnectOptions();
+            connOpts.setCleanSession(true);
+            logger.info("Connecting to broker: "+broker);
+            
+            sampleClient.connect(connOpts);
+            logger.info("Connected"+broker);
+            sampleClient.setCallback(this);
+           
+            MqttMessage message = new MqttMessage(content.getBytes());
+            message.setQos(qos);
+            
+            sampleClient.subscribe(topic);
+            
+        
+            
+            
+        } catch(MqttException me) {
+            logger.info("reason "+me.getReasonCode());
+            logger.info("msg "+me.getMessage());
+            logger.info("loc "+me.getLocalizedMessage());
+            logger.info("cause "+me.getCause());
+            logger.info("excep "+me);
+            me.printStackTrace();
+        }
+        
+    	logger.info("initalise MQTT...Done");
+    }
+    */
+    public void setPort(int port) {
+    	logger.info("set server port...");
+    	serverPort=port;
+    	initServer();
+    	logger.info("set server port...Done");
+    }
+    
+    
+    public void run() {
+
+        Thread.currentThread().setName(getClass().getSimpleName());
+    		
+    	if(true) {
+    		try {
+    			logger.info("Manager: elek!");
+    			Socket connection=serverSocket.accept();
+    			ClientHandler client=new ClientHandler(connection);
+    			m_worker.schedule(client, 1, TimeUnit.MILLISECONDS);
+    		}catch(IOException e) {
+    			notifylog();
+    			logger.info(e.toString());
+    		}
+    	}
+    	
+    }
+    
+    
+    
+    
+    
+	private class ClientHandler extends Thread{
+		Socket m_connection;
+
+		
+		
+		public ClientHandler(Socket connection) {
+			
+			logger.info("new client has connected...");
+			logger.info(connection.getInetAddress().toString());
+			
+			m_connection=connection;
+			
+		}
+		
+		
+		public void run() {
+            Thread.currentThread().setName(getClass().getSimpleName());
+			try {
+				OutputStream os=m_connection.getOutputStream();
+				
+				JsonObject commands=new JsonObject();
+				
+				commands.addProperty("GatewayID", "5521");
+				
+				switch(lampState) {
+				case START:
+					commands.addProperty("LampState", "START");
+				break;
+				case STOP:
+					commands.addProperty("LampState", "STOP");
+				break;
+				case WARNING:
+					commands.addProperty("LampState", "WARNING");
+				break;
+				default:
+					commands.addProperty("LampState", "STOP");
+				break;
+				}
+				
+				switch(lcdState) {
+				case COLD:
+					commands.addProperty("LCDState", "COLD");
+				break;
+				case HOT:
+					commands.addProperty("LCDState", "HOT");
+				break;
+				case OKAY:
+					commands.addProperty("LCDState", "OKAY");
+				break;
+				default:
+					commands.addProperty("LCDState", "OKAY");
+				break;
+				
+				}
+				
+				
+				os.write(commands.toString().getBytes());
+				os.write('$');
+				
+				m_connection.close();
+				
+			}catch(IOException e) {
+				logger.info(e.toString());
+			}
+		}
+		
+		
+	}
+
+
+
+
+/*
+	@Override
+	public void connectionLost(Throwable arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void deliveryComplete(IMqttDeliveryToken arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
+
+		if(arg1.toString().contains("START")) {
+			lampState=LampState.START;
+		}
+		if(arg1.toString().contains("STOP")) {
+			lampState=LampState.STOP;
+		}
+		if(arg1.toString().contains("WARNING")) {
+			lampState=LampState.WARNING;
+		}
+		
+		
+
+		if(arg1.toString().contains("HOT")) {
+			lcdState=LCDState.HOT;
+		}
+		if(arg1.toString().contains("COLD")) {
+			lcdState=LCDState.COLD;
+		}
+		if(arg1.toString().contains("OKAY")) {
+			lcdState=LCDState.OKAY;
+		}
+		
+	}
+*/	
+}

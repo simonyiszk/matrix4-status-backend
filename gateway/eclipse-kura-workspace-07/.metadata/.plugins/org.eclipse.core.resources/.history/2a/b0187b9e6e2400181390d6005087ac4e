@@ -1,0 +1,9 @@
+package org.eclipse.kura.demo.heater;
+
+public class Data {
+	
+	int SensorID;
+	String Type;
+	int MicroTimeStamp;
+
+}
