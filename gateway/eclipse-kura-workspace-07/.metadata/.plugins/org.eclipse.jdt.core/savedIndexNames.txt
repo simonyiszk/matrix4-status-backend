@@ -1,7 +1,6 @@
 INDEX VERSION 1.130+C:\Users\simon5521\FTSRG\gateway\eclipse-kura-workspace-07\.metadata\.plugins\org.eclipse.jdt.core
 1493315103.index
 1137229499.index
-4031968649.index
 3389038606.index
 1753243198.index
 3141958188.index
@@ -22,7 +21,6 @@ INDEX VERSION 1.130+C:\Users\simon5521\FTSRG\gateway\eclipse-kura-workspace-07\.
 3666609613.index
 3832250211.index
 2470519452.index
-1325223418.index
 3620471903.index
 559129880.index
 848469205.index
