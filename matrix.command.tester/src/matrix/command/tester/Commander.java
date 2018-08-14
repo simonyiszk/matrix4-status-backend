@@ -60,6 +60,7 @@ public class Commander {
 		socket.setSoTimeout(1000);
 		socket.receive(packet);
 		valasz=datagram.getData().toString();
+		socket.close();
 		return valasz;
 	}
 

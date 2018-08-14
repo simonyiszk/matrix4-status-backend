@@ -2,8 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/simon5521/Downloads/java-json.jar"/>
-	<classpathentry kind="lib" path="C:/Users/simon5521/Downloads/gson-2.2.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/simon5521/SEM_Workspace/ProjectFolder/matrix.command.tester/external_libraries/gson-2.2.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/simon5521/SEM_Workspace/ProjectFolder/matrix.command.tester/external_libraries/json-simple-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
