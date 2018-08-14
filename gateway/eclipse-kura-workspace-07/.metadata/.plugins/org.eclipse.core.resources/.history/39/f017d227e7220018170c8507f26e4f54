@@ -1,9 +1,0 @@
-#Deployment Plugin Project File
-#Thu Mar 08 16:40:58 CET 2018
-bundles.count=0
-certificates.count=0
-general.signbundles=false
-headers.other.headers=
-headers.symbolic.name=hu.bme.mit.modes3.iot.nodeserver
-headers.version=1.0.0
-resources.count=0

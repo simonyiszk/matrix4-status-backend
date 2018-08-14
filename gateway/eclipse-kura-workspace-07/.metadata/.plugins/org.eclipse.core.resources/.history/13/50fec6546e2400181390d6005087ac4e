@@ -1,9 +1,0 @@
-package org.eclipse.kura.demo.heater;
-
-public class Input {
-	
-	int SensorID;
-	String Type;
-	int MicroTimeStamp;
-
-}
