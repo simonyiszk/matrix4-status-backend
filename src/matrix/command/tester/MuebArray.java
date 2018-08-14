@@ -6,11 +6,17 @@ import com.google.gson.JsonObject;
 
 public class MuebArray {
 	private Mueb container[][];
-	public final int width=2;
-	public final int  height=3;
-	public void setMueb(int emelet,int szoba) {
-		
+	public final int width=8;
+	public final int  height=13;
+
+	public void setMueb(int emelet,int szoba, Mueb mueb) {
+		container[emelet-6][szoba-5]=mueb;
 	}
+
+	public Mueb getMueb(int emelet,int szoba) {
+		return container[emelet-6][szoba-5];
+	}
+	
 	
 	public MuebArray() {
 		container=new Mueb[height][width];

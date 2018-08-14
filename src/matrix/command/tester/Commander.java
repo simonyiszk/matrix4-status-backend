@@ -40,37 +40,26 @@ public class Commander {
 		return valasz;
 	}
 	
-	String send(String cel) {
+	@SuppressWarnings("resource")
+	String send(String cel) throws Exception{
 		String valasz=null;
 		DatagramSocket socket=null;
 		DatagramPacket datagram=null;
 		byte[] buff=new byte[256];
 		
-		try {
-			InetAddress cim;
-			cim=InetAddress.getByName(cel);
-			datagram=new DatagramPacket(toBytes(),4,cim,port);
+		InetAddress cim;
+		cim=InetAddress.getByName(cel);
+		datagram=new DatagramPacket(toBytes(),4,cim,port);
 			
-		}catch(Exception e) {
-			System.out.println(e.toString());
-			return "Sikertelen inicializalas";
-		}
-		try {
-			socket=new DatagramSocket();
-			socket.send(datagram);
-		}catch(Exception e) {
-			System.out.println(e.toString());
-			return "Sikertelen kuldes";
-		}
-		try {
-			DatagramPacket packet=new DatagramPacket(buff,buff.length);
-			socket.setSoTimeout(1000);
-			socket.receive(packet);
-			valasz=datagram.getData().toString();
-		}catch(Exception e) {
-			System.out.println(e.toString());
-			return "Sikertelen fogadas";
-		}
+		
+		
+		socket=new DatagramSocket();
+		socket.send(datagram);
+		
+		DatagramPacket packet=new DatagramPacket(buff,buff.length);
+		socket.setSoTimeout(1000);
+		socket.receive(packet);
+		valasz=datagram.getData().toString();
 		return valasz;
 	}
 
