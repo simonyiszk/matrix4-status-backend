@@ -7,8 +7,8 @@ import java.net.InetAddress;
 public class Commander {
 	
 	private byte commandByte;
-	private final int port=3000;
-	private final int recport=3000;
+	private final int sendport=3000;
+	private final int recport=3001;
 	
 	public Commander(String tipus) {
 		if(tipus.compareTo("12V-off-left")==0)
@@ -49,11 +49,11 @@ public class Commander {
 		
 		InetAddress cim;
 		cim=InetAddress.getByName(cel);
-		datagram=new DatagramPacket(toBytes(),4,cim,port);
+		datagram=new DatagramPacket(toBytes(),4,cim,sendport);
 			
 		
 		
-		socket=new DatagramSocket();
+		socket=new DatagramSocket(recport);
 		socket.send(datagram);
 		
 		DatagramPacket packet=new DatagramPacket(buff,buff.length);

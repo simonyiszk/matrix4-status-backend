@@ -11,6 +11,7 @@ public class MuebArray {
 
 	public void setMueb(int emelet,int szoba, Mueb mueb) {
 		container[emelet-6][szoba-5]=mueb;
+		System.out.println("mueb has been set");
 	}
 
 	public Mueb getMueb(int emelet,int szoba) {

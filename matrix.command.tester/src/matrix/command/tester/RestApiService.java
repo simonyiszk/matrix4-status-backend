@@ -12,7 +12,7 @@ public class RestApiService extends Thread {
 	ServerSocket serverSocket;
 	public final int port=31920;
 	
-	private volatile MuebArray muebArray;
+	private volatile MuebArray muebArray=new MuebArray();
 	
 	public void setMuebArray(MuebArray ma) {
 		muebArray=ma;
